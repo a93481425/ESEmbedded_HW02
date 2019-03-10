@@ -64,9 +64,10 @@ sleep:
 4. 將 main.s 編譯並以 qemu 模擬， `$ make clean`, `$ make`, `$ make qemu`
 開啟另一 Terminal 連線 `$ arm-none-eabi-gdb` ，再輸入 `target remote 127.0.0.1:1234` 連接，輸入兩次的 `info registers` 再輸入 `layout regs`, 輸入 `si` 執行單步除錯。
 
-5. 從反組譯視窗中的`0x14   push {r0, r1, r2, r3}` 與 `0x16 push {r0, r1, r2, r3}` 
+5. 從反組譯視窗中的`0x18   push {r0, r1, r2, r3}` 與 `0x2a push {r0, r1, r2, r3}` 
 再對照原先我們寫入的指令`push {r0, r1, r2, r3}`與`push {r3, r2, r1, r0}`
-可以發現就算刻意調整堆疊寫入順序從r3到r0在組譯之後也會被組譯器調整為從r0到r3，如下圖所示
+可以發現就算刻意調整堆疊寫入順序`0x2a`從r0到r3在組譯之後也會被組譯器調整為從r0到r3，如下圖(1)所示
+同樣的pop指令也是如此
 
 ![](https://github.com/vwxyzjimmy/ESEmbedded_HW02/blob/master/img-folder/0x0a.jpg)
 
@@ -77,7 +78,11 @@ sleep:
 
 ## 3. 結果與討論
 1. 只要沒有按照升序排列，組譯器會幫你調整成正確的形式
-2. 若要調整結果如預先設計的結果
+2. 基於第一點，我們可以知道其實不管是升序還是降序組譯的結果還是一樣
+3. 若要調整結果如預先設計的`push {r3, r2, r1, r0}`如此順序推入堆疊，則推入堆疊指令應該如下
 ```assembly
-
-
+push {r0}
+push {r1}
+push {r2}
+push {r3}
+```
