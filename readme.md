@@ -69,12 +69,12 @@ sleep:
 可以發現就算刻意調整堆疊寫入順序`0x2a`從r0到r3在組譯之後也會被組譯器調整為從r3到r0，如下圖(1)所示
 同樣的pop指令也是如此
             
-![](https://github.com/a93481425/ESEmbedded_HW02/HW2pic/Pic1.png)
+![](https://raw.githubusercontent.com/a93481425/ESEmbedded_HW02/master/HW2pic/Pic1.png)
 
 在反組譯視窗中，我們移動到反組譯碼上方可以發現組譯器有給出`register range not in ascending order`的警告訊息
 大意是說沒有暫存器按照升序排列，因此組譯器幫我們調成正確的形式，如下圖所示。
 
-![](https://github.com/a93481425/ESEmbedded_HW02/HW2pic/pic2.png)
+![](https://raw.githubusercontent.com/a93481425/ESEmbedded_HW02/master/HW2pic/pic2.png)
 
 ## 3. 結果與討論
 1. 只要沒有按照升序排列，組譯器會幫你調整成正確的形式
