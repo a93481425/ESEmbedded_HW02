@@ -84,5 +84,6 @@ sleep:
 push {r0}
 push {r1}
 push {r2}
-push {r3]
+push {r3}
 ```
+
