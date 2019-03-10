@@ -79,11 +79,24 @@ sleep:
 ## 3. 結果與討論
 1. 只要沒有按照升序排列，組譯器會幫你調整成正確的形式
 2. 基於第一點，我們可以知道其實不管是升序還是降序組譯的結果還是一樣
-3. 若要調整結果如預先設計的`push {r3, r2, r1, r0}`如此順序推入堆疊，則推入堆疊指令應該如下
+3. 若要調整結果如預先設計的`push {r3, r2, r1, r0}`如此順序推入堆疊，則推入堆疊指令應該如下修改
+不修改推入堆疊後 堆疊內的情況如下圖
+![](https://raw.githubusercontent.com/a93481425/ESEmbedded_HW02/master/HW2pic/org%20stack.png)
+直接pop回來的暫存器如下圖
+![](https://raw.githubusercontent.com/a93481425/ESEmbedded_HW02/master/HW2pic/org%20reg.png)
+
+
+修改成如下程式碼
 ```assembly
 push {r0}
 push {r1}
 push {r2}
 push {r3}
 ```
+推入堆疊後堆疊內情況如下
+![](https://raw.githubusercontent.com/a93481425/ESEmbedded_HW02/master/HW2pic/modify%20push.png)
+pop回來後暫存器情況如下
+![](https://raw.githubusercontent.com/a93481425/ESEmbedded_HW02/master/HW2pic/modify%20push%20pop%20reg.png)
 
+可以看到第二次推堆疊後堆疊內容反過來了
+再pop回來姐果也相反，因此若要實現push反序排列 使用如上方式是相當好的
