@@ -62,17 +62,21 @@ sleep:
 ```
 
 4. 將 main.s 編譯並以 qemu 模擬， `$ make clean`, `$ make`, `$ make qemu`
-開啟另一 Terminal 連線 `$ arm-none-eabi-gdb` ，再輸入 `target remote localhost:1234` 連接，輸入兩次的 `ctrl + x` 再輸入 `2`, 開啟 Register 以及指令，並且輸入 `si` 單步執行觀察。
-當執行到 `0xa` 的 `b.n    0xc ` 時， `pc` 跳轉至 `0x0c` ，除了 branch 外並無變化。
+開啟另一 Terminal 連線 `$ arm-none-eabi-gdb` ，再輸入 `target remote 127.0.0.1:1234` 連接，輸入兩次的 `info registers` 再輸入 `layout regs`, 輸入 `si` 執行單步除錯。
+
+5. 從反組譯視窗中的`0x14   push {r0, r1, r2, r3}` 與 `0x16 push {r0, r1, r2, r3}` 
+再對照原先我們寫入的指令`push {r0, r1, r2, r3}`與`push {r3, r2, r1, r0}`
+可以發現就算刻意調整堆疊寫入順序從r3到r0在組譯之後也會被組譯器調整為從r0到r3，如下圖所示
 
 ![](https://github.com/vwxyzjimmy/ESEmbedded_HW02/blob/master/img-folder/0x0a.jpg)
 
-當執行到 `0x0e` 的 `bl     0x12` 後，會發現 `lr`  更新為 `0x13`。
+在反組譯視窗中，我們移動到反組譯碼上方可以發現組譯器有給出`register range not in ascending order`的警告訊息
+大意是說沒有暫存器按照升序排列，因此組譯器幫我們調成正確的形式，如下圖所示。
 
 ![](https://github.com/vwxyzjimmy/ESEmbedded_HW02/blob/master/img-folder/0x12.jpg)
 
 ## 3. 結果與討論
-1. 使用 `bl` 時會儲存 `pc` 下一行指令的位置到 `lr` 中，通常用來進行副程式的呼叫，副程式結束要返回主程式時，可以執行 `bx lr`，返回進入副程式前下一行指令的位置。
+1. 只要沒有按照升序排列，組譯器會幫你調整成正確的形式
 2. 根據 [Cortex-M4-Arm Developer](https://developer.arm.com/products/processors/cortex-m/cortex-m4)，由於 Cortex-M4 只支援 Thumb/ Thumb-2 指令，使用 `bl` 時，linker 自動把 pc 下一行指令位置並且設定 LSB 寫入 `lr` ，未來使用 `bx lr` 等指令時，由於 `lr` 的 LSB 為 1 ，能確保是在 Thumb/ Thumb-2 指令下執行後續指令。
 以上述程式為例， `bl     0x12` 下一行指令位置為  0x12 並設定 LSB 為 1 ，所以寫入 0x13 至 `lr` 。
 
