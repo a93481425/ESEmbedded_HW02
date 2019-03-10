@@ -66,7 +66,7 @@ sleep:
 
 5. 從反組譯視窗中的`0x18   push {r0, r1, r2, r3}` 與 `0x2a push {r0, r1, r2, r3}` 
 再對照原先我們寫入的指令`push {r0, r1, r2, r3}`與`push {r3, r2, r1, r0}`
-可以發現就算刻意調整堆疊寫入順序`0x2a`從r0到r3在組譯之後也會被組譯器調整為從r0到r3，如下圖(1)所示
+可以發現就算刻意調整堆疊寫入順序`0x2a`從r0到r3在組譯之後也會被組譯器調整為從r3到r0，如下圖(1)所示
 同樣的pop指令也是如此
 
 ![](https://github.com/vwxyzjimmy/ESEmbedded_HW02/blob/master/img-folder/0x0a.jpg)
