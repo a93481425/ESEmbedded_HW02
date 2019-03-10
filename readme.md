@@ -77,13 +77,7 @@ sleep:
 
 ## 3. 結果與討論
 1. 只要沒有按照升序排列，組譯器會幫你調整成正確的形式
-2. 根據 [Cortex-M4-Arm Developer](https://developer.arm.com/products/processors/cortex-m/cortex-m4)，由於 Cortex-M4 只支援 Thumb/ Thumb-2 指令，使用 `bl` 時，linker 自動把 pc 下一行指令位置並且設定 LSB 寫入 `lr` ，未來使用 `bx lr` 等指令時，由於 `lr` 的 LSB 為 1 ，能確保是在 Thumb/ Thumb-2 指令下執行後續指令。
-以上述程式為例， `bl     0x12` 下一行指令位置為  0x12 並設定 LSB 為 1 ，所以寫入 0x13 至 `lr` 。
+2. 若要調整結果如預先設計的結果
+```assembly
 
 
- [Linker User Guide: --entry=location](http://www.keil.com/support/man/docs/armlink/armlink_pge1362075463332.htm)
-```
-Note
-If the entry address of your image is in Thumb state, then the least significant bit of the address must be set to 1.
-The linker does this automatically if you specify a symbol.
-```
