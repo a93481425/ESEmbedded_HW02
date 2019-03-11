@@ -99,4 +99,4 @@ pop回來後暫存器情況如下
 ![](https://raw.githubusercontent.com/a93481425/ESEmbedded_HW02/master/HW2pic/modify%20push%20pop%20reg.png)
 
 可以看到第二次推堆疊後堆疊內容反過來了
-再pop回來姐果也相反，因此若要實現push反序排列 使用如上方式是相當好的
+再pop回來結果也相反，因此若要實現push反序排列 使用如上方式是相當好的
